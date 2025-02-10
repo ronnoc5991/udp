@@ -30,7 +30,11 @@ int main(int argc, char **argv) {
 
 	server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(PORT);
-    server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+	if (inet_pton(AF_INET, "127.0.0.1", &(server_addr.sin_addr)) == 0) {
+		printf("Unable to parse IP address\n");
+		exit(1);
+	}
 
 	// create a UDP socket
 	socket_fd = Socket(AF_INET, SOCK_DGRAM, 0);
